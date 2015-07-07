@@ -51,6 +51,7 @@ if ( !Array.prototype.forEach ) {
       }
     } catch (e) {
       console.log("Exception caught: " + e);
+      return;
     }
 
     // 1. Let O be the result of calling ToObject passing the |this| value as the argument.
@@ -68,6 +69,7 @@ if ( !Array.prototype.forEach ) {
       }
     } catch (e) {
       console.log("Exception caught: " + e);
+      return;
     }
 
     // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
