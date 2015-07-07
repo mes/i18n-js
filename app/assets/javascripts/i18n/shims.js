@@ -7,7 +7,6 @@ if (!Array.prototype.indexOf) {
               throw new TypeError();
           }
         } catch (e) {
-          console.log("Exception caught: " + e);
           return;
         }
         var t = Object(this);
@@ -51,7 +50,6 @@ if ( !Array.prototype.forEach ) {
         throw new TypeError( "this is null or not defined" );
       }
     } catch (e) {
-      console.log("Exception caught: " + e);
       return;
     }
 
@@ -69,7 +67,6 @@ if ( !Array.prototype.forEach ) {
         throw new TypeError( callback + " is not a function" );
       }
     } catch (e) {
-      console.log("Exception caught: " + e);
       return;
     }
 
@@ -118,7 +115,6 @@ if (!Array.prototype.some)
       if (this === void 0 || this === null)
         throw new TypeError();
     } catch (e) {
-      console.log("Exception caught: " + e);
       return;
     }
 
@@ -129,7 +125,6 @@ if (!Array.prototype.some)
       if (typeof fun !== 'function')
         throw new TypeError();
     } catch (e) {
-      console.log("Exception caught: " + e);
       return;
     }
 
