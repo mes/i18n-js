@@ -2,8 +2,12 @@
 if (!Array.prototype.indexOf) {
     Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
         "use strict";
-        if (this == null) {
-            throw new TypeError();
+        try{
+          if (this == null) {
+              throw new TypeError();
+          }
+        } catch (e) {
+          console.log("Exception caught: " + e);
         }
         var t = Object(this);
         var len = t.length >>> 0;
@@ -41,8 +45,12 @@ if ( !Array.prototype.forEach ) {
 
     var T, k;
 
-    if ( this == null ) {
-      throw new TypeError( "this is null or not defined" );
+    try {
+      if ( this == null ) {
+        throw new TypeError( "this is null or not defined" );
+      }
+    } catch (e) {
+      console.log("Exception caught: " + e);
     }
 
     // 1. Let O be the result of calling ToObject passing the |this| value as the argument.
@@ -54,8 +62,12 @@ if ( !Array.prototype.forEach ) {
 
     // 4. If IsCallable(callback) is false, throw a TypeError exception.
     // See: http://es5.github.com/#x9.11
-    if ( {}.toString.call(callback) !== "[object Function]" ) {
-      throw new TypeError( callback + " is not a function" );
+    try {
+      if ( {}.toString.call(callback) !== "[object Function]" ) {
+        throw new TypeError( callback + " is not a function" );
+      }
+    } catch (e) {
+      console.log("Exception caught: " + e);
     }
 
     // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
@@ -99,13 +111,22 @@ if (!Array.prototype.some)
   {
     'use strict';
 
-    if (this === void 0 || this === null)
-      throw new TypeError();
+    try {
+      if (this === void 0 || this === null)
+        throw new TypeError();
+    } catch (e) {
+      console.log("Exception caught: " + e);
+    }
 
     var t = Object(this);
     var len = t.length >>> 0;
-    if (typeof fun !== 'function')
-      throw new TypeError();
+
+    try {
+      if (typeof fun !== 'function')
+        throw new TypeError();
+    } catch (e) {
+      console.log("Exception caught: " + e);
+    }
 
     var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
     for (var i = 0; i < len; i++)
