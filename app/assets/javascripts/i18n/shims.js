@@ -8,6 +8,7 @@ if (!Array.prototype.indexOf) {
           }
         } catch (e) {
           console.log("Exception caught: " + e);
+          return;
         }
         var t = Object(this);
         var len = t.length >>> 0;
@@ -118,6 +119,7 @@ if (!Array.prototype.some)
         throw new TypeError();
     } catch (e) {
       console.log("Exception caught: " + e);
+      return;
     }
 
     var t = Object(this);
@@ -128,6 +130,7 @@ if (!Array.prototype.some)
         throw new TypeError();
     } catch (e) {
       console.log("Exception caught: " + e);
+      return;
     }
 
     var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
