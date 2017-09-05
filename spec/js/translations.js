@@ -30,6 +30,12 @@ var DEBUG = false;
           , zero: "You have no messages"
         }
 
+      , sent: {
+            one: null
+          , other: null
+          , zero: null
+        }
+
       , unread: {
             one: "You have 1 new message ({{unread}} unread)"
           , other: "You have {{count}} new messages ({{unread}} unread)"
@@ -122,6 +128,14 @@ var DEBUG = false;
 
     Translations["nb"] = {
       hello: "Hei Verden!"
+    };
+
+    Translations["zh-Hant"] = {
+      cat: "貓"
+    };
+
+    Translations["zh"] = {
+      dog: "狗"
     };
 
     return Translations;

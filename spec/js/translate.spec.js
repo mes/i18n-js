@@ -24,6 +24,12 @@ describe("Translate", function(){
     expect(actual).toEqual(expected);
   });
 
+  it("returns missing message translation with provided locale for invalid scope", function(){
+    actual = I18n.t("invalid.scope", { locale: "ja" });
+    expected = '[missing "ja.invalid.scope" translation]';
+    expect(actual).toEqual(expected);
+  });
+
   it("returns guessed translation if missingBehaviour is set to guess", function(){
     I18n.missingBehaviour = 'guess'
     actual = I18n.t("invalid.thisIsAutomaticallyGeneratedTranslation");
@@ -59,7 +65,7 @@ describe("Translate", function(){
     expect(I18n.t("hello", {locale: "pt-BR"})).toEqual("Olá Mundo!");
   });
 
-  it("fallbacks to the default locale when I18n.fallbackss is enabled", function(){
+  it("fallbacks to the default locale when I18n.fallbacks is enabled", function(){
     I18n.locale = "pt-BR";
     I18n.fallbacks = true;
     expect(I18n.t("greetings.stranger")).toEqual("Hello stranger!");
@@ -75,6 +81,21 @@ describe("Translate", function(){
     I18n.locale = "de-DE";
     I18n.fallbacks = true;
     expect(I18n.t("hello")).toEqual("Hallo Welt!");
+  });
+
+  describe("when a 3-part locale is used", function(){
+    beforeEach(function(){
+      I18n.locale = "zh-Hant-TW";
+      I18n.fallbacks = true;
+    });
+
+    it("fallbacks to 2-part locale when absent", function(){
+      expect(I18n.t("cat")).toEqual("貓");
+    });
+
+    it("fallbacks to 1-part locale when 2-part missing requested translation", function(){
+      expect(I18n.t("dog")).toEqual("狗");
+    });
   });
 
   it("fallbacks using custom rules (function)", function(){
@@ -103,7 +124,7 @@ describe("Translate", function(){
     expect(I18n.t("hello")).toEqual("Hei Verden!");
   });
 
-  describe("when provided default valutes", function() {
+  describe("when provided default values", function() {
     it("uses scope provided in defaults if scope doesn't exist", function() {
       actual = I18n.t("Hello!", {defaults: [{scope: "greetings.stranger"}]});
       expect(actual).toEqual("Hello stranger!");
@@ -139,11 +160,36 @@ describe("Translate", function(){
       actual = I18n.t("foo", options);
       expect(actual).toEqual("Hello all!");
     });
+
+    it("uses default scope over default value if default scope is found", function() {
+      var options = {
+          defaults: [{scope: "hello"}]
+        , defaultValue: "Hello all!"
+      };
+      actual = I18n.t("foo", options);
+      expect(actual).toEqual("Hello World!");
+    })
+
+    it("uses default value with lazy evaluation", function () {
+      var options = {
+          defaults: [{scope: "bar"}]
+        , defaultValue: function(scope) {
+          return scope.toUpperCase();
+        }
+      };
+      actual = I18n.t("foo", options);
+      expect(actual).toEqual("FOO");
+    })
   });
 
   it("uses default value for simple translation", function(){
     actual = I18n.t("warning", {defaultValue: "Warning!"});
     expect(actual).toEqual("Warning!");
+  });
+
+  it("uses default value for plural translation", function(){
+    actual = I18n.t("message", {defaultValue: { one: '%{count} message', other: '%{count} messages'}, count: 1});
+    expect(actual).toEqual("1 message");
   });
 
   it("uses default value for unknown locale", function(){
@@ -180,6 +226,7 @@ describe("Translate", function(){
   it("escapes $ when doing substitution (IE)", function(){
     I18n.locale = "en";
 
+    expect(I18n.t("paid", {price: "$0"})).toEqual("You were paid $0");
     expect(I18n.t("paid", {price: "$0.12"})).toEqual("You were paid $0.12");
     expect(I18n.t("paid", {price: "$1.35"})).toEqual("You were paid $1.35");
   });
